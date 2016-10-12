@@ -7,7 +7,5 @@ rb = -3     #Batas bawah
 n = 3       #panjang reptesentasi variable
 pop = 10    #Total individu tiap populasi
 
-k1 = np.random.randint(10, size=6)
-pick = np.random.randint(0,10)
-
-print(pick)
+for i in range(2, 10):
+    print(i)
