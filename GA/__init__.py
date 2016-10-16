@@ -44,22 +44,7 @@ def fitness(population, ra, rb, n):
     return fitness
 
 
-def filter_fitness(fitess_val):
-    for i in range(0, len(fitess_val)):
-        if (fitess_val[i] < 0):
-            fitess_val[i] = 0
-    return fitess_val
-
-
-# def window_scaling(fitness, min):
-#     scaled_fitness = []
-#     for data in fitness:
-#         scaled_fitness.append(data - min)
-#     return scaled_fitness
-
-
 def roulette_wheel(population, fitness_val):
-    fitness_val = filter_fitness(fitness_val)
     max = np.sum(fitness_val)
 
     pick = random.uniform(0, max)
@@ -68,33 +53,6 @@ def roulette_wheel(population, fitness_val):
         current += value
         if current > pick:
             return (population[fitness_val.index(value)])
-
-
-def parent_selection(population, fitness_val, ra, rb, n):
-    # fitness_val = filter_fitness(fitness_val)
-    new_pop = []
-    new_pop.append(population[0])
-    new_pop.append(population[1])
-
-    # Linear Ranking
-    population, fitness_val = linear_ranking(population, fitness_val)
-
-    for i in range(2, len(population)):
-        chs = roulette_wheel(population, fitness_val)
-        # if (i > 0):
-        #     if (i % 2 != 0):
-        #         x1 = decode(new_pop[i - 1], ra, rb, n)
-        #         a1 = 1 / cost(x1[0], x1[1]) + 0.0001
-        #         x2 = decode(chs, ra, rb, n)
-        #         a2 = 1 / cost(x2[0], x2[1]) + 0.0001
-        #
-        #         while (a1 == a2):
-        #             chs = roulette_wheel(population, fitness_val)
-        #             x2 = decode(chs, ra, rb, n)
-        #             a2 = 1 / cost(x2[0], x2[1]) + 0.0001
-        new_pop.append(chs)
-
-    return new_pop
 
 
 def linear_ranking(population, fitness_val):
@@ -107,43 +65,52 @@ def linear_ranking(population, fitness_val):
     return sortedPopulation, sortedFitness
 
 
-def recombination(population, rp):
+def parent_selection(population, fitness_val, ra, rb, n):
+    new_pop = []
+    new_pop.append(population[0])
+    new_pop.append(population[1])
+
+    # Linear Ranking
+    population, fitness_val = linear_ranking(population, fitness_val)
+
+    for i in range(2, len(population)):
+        chs = roulette_wheel(population, fitness_val)
+        new_pop.append(chs)
+
+    return new_pop
+
+
+def recombination(population):
     def split_list(list, point):
         return list[:point], list[point:]
 
     new_pop = []
     new_pop.append(population[0])
     new_pop.append(population[1])
-    for i in range(2, len(population), 2):
-        # pick = random.uniform(0, 1)
-        # if (pick < rp):
-        point = random.randint(1, len(population[i]) - 1)
 
+    for i in range(2, len(population), 2):
+        point = random.randint(1, len(population[i]) - 1)
         p1 = split_list(population[i], point)
         p2 = split_list(population[i + 1], point)
         new_pop.append(np.concatenate((p1[0], p2[1])))
         new_pop.append(np.concatenate((p2[0], p1[1])))
-        # else:
-        #     new_pop.append(population[i])
-        #     new_pop.append(population[i + 1])
 
     return new_pop
 
 
-def mutation(population, mp):
+def mutation(population):
     new_pop = []
     new_pop.append(population[0])
     new_pop.append(population[1])
+
     for i in range(2, len(population)):
-        pick = random.uniform(0, 1)
-        # if (pick < mp):
         index = np.random.randint(0, 5)
         new_val = np.random.randint(0, 10)
+
         while (new_val == population[i][index]):
             new_val = np.random.randint(0, 10)
+
         population[i][index] = new_val
         new_pop.append(population[i])
-        # else:
-        #     new_pop.append(population[i])
 
     return new_pop
