@@ -7,5 +7,6 @@ rb = -3     #Batas bawah
 n = 3       #panjang reptesentasi variable
 pop = 10    #Total individu tiap populasi
 
-for i in range(2, 10):
-    print(i)
+test = [4, 5, 3, 5, 3, 9]
+
+print(test[:6])
