@@ -6,10 +6,10 @@ import matplotlib.animation as animation
 ra  = 3    # Batas atas
 rb  = -3   # Batas bawah
 n   = 5    # Panjang reptesentasi variable
-pop = 50   # Total individu tiap populasi
+pop = 1000 # Total individu tiap populasi
 rp  = 0.8  # Probabilitas rekombinasi
 mp  = 0.1  # Probabilitas mutasi
-g   = 10000 # Generasi
+g   = 1000 # Generasi
 
 kromax = []     # kromosom terbaik
 fitmax = []     # fitness kromosom terbaik

@@ -13,4 +13,7 @@ test= [4, 5, 3, 5, 3, 9]
 x = np.linspace(0, 10, 100)
 y = np.sin(x)
 
-print('test',(1))
+fr = input('Masukkan FR : ')
+
+print(type(fr))
+

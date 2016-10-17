@@ -80,7 +80,7 @@ def parent_selection(population, fitness_val, ra, rb, n):
     return new_pop
 
 
-def recombination(population):
+def recombination(population, rp):
     def split_list(list, point):
         return list[:point], list[point:]
 
@@ -89,28 +89,38 @@ def recombination(population):
     new_pop.append(population[1])
 
     for i in range(2, len(population), 2):
-        point = random.randint(1, len(population[i]) - 1)
-        p1 = split_list(population[i], point)
-        p2 = split_list(population[i + 1], point)
-        new_pop.append(np.concatenate((p1[0], p2[1])))
-        new_pop.append(np.concatenate((p2[0], p1[1])))
+        rand = random.uniform(0, 1)
+        if (rand < rp):
+            point = random.randint(1, len(population[i]) - 1)
+            p1 = split_list(population[i], point)
+            p2 = split_list(population[i + 1], point)
+            new_pop.append(np.concatenate((p1[0], p2[1])))
+            new_pop.append(np.concatenate((p2[0], p1[1])))
+        else:
+            new_pop.append(population[i])
+            new_pop.append(population[i + 1])
 
     return new_pop
 
 
-def mutation(population):
+def mutation(population,mp):
     new_pop = []
     new_pop.append(population[0])
     new_pop.append(population[1])
 
-    for i in range(2, len(population)):
-        index = np.random.randint(0, 5)
-        new_val = np.random.randint(0, 10)
+    rand = random.uniform(0, 1)
 
-        while (new_val == population[i][index]):
+    for i in range(2, len(population)):
+        if (rand < mp):
+            index = np.random.randint(0, 5)
             new_val = np.random.randint(0, 10)
 
-        population[i][index] = new_val
-        new_pop.append(population[i])
+            while (new_val == population[i][index]):
+                new_val = np.random.randint(0, 10)
+
+            population[i][index] = new_val
+            new_pop.append(population[i])
+        else:
+            new_pop.append(population[i])
 
     return new_pop
