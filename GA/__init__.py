@@ -35,11 +35,10 @@ def cost(x1, x2):
 
 
 def fitness(population, ra, rb, n):
-    a = 0.00001
     fitness = []
     for data in population:
         x = decode(data, ra, rb, n)
-        fitness.append(1 / cost(x[0], x[1]) + a)
+        fitness.append(1 / (cost(x[0], x[1]) + abs(rb)))
 
     return fitness
 

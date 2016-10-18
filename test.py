@@ -1,20 +1,25 @@
+import GA
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-import numpy as np
-import matplotlib.pyplot as plt
+ra = 3  # Batas atas
+rb = -3  # Batas bawah
+n = 5  # Panjang reptesentasi variable
+pop = 50  # Total individu tiap populasi
+rp = 0.8  # Probabilitas rekombinasi
+mp = 0.1  # Probabilitas mutasi
+g = 1000  # Generasi
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
+def real_rep(ra,rb,x):
+    return (rb) + (ra - rb) * x
 
-t = np.arange(0.0, 5.0, 0.01)
-s = np.cos(2*np.pi*t)
-line, = ax.plot(t, s, lw=2)
+x = real_rep(ra,rb,0.4855594460293093)
+y = real_rep(ra,rb,0.6201771207122992)
 
-ax.annotate('local max', xy=(2, 1), xytext=(3, 1.5),
-            arrowprops=dict(facecolor='black', shrink=0.05),
-            )
+cost = (GA.cost(-0.0821708217082,0.652716527165))
 
-ax.set_ylim(-2,2)
-plt.show()
+fitness = 1 / (cost + 3)
+
+print(cost)
+print(fitness)

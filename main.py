@@ -6,10 +6,10 @@ import matplotlib.animation as animation
 ra  = 3    # Batas atas
 rb  = -3   # Batas bawah
 n   = 5    # Panjang reptesentasi variable
-pop = 1000 # Total individu tiap populasi
+pop = 100 # Total individu tiap populasi
 rp  = 0.8  # Probabilitas rekombinasi
 mp  = 0.1  # Probabilitas mutasi
-g   = 1000 # Generasi
+g   = 200 # Generasi
 
 kromax = []     # kromosom terbaik
 fitmax = []     # fitness kromosom terbaik
@@ -31,11 +31,11 @@ for i in range(0, g):
 
     # recombination
     offsprings = []
-    offsprings = GA.recombination(gen)
+    offsprings = GA.recombination(gen,rp)
 
     # mutation
     mutated = []
-    mutated = GA.mutation(offsprings)
+    mutated = GA.mutation(offsprings,mp)
 
     # generational replacement
     population = mutated
@@ -55,6 +55,8 @@ for i in range(0, g):
 # plot animation
 x = np.arange(0, g)
 y = fitmax
+bestC = (1 / fitmax[-1]) - abs(rb)
+bestK = GA.decode(kromax[-1],ra,rb,n)
 
 fig, ax = plt.subplots()
 line, = ax.plot(x, y, color='g')
@@ -67,9 +69,17 @@ ani = animation.FuncAnimation(fig, update, len(x), fargs=[x, y, line],
                               interval=0.001, blit=True, repeat=False)
 plt.ylabel('Fitness')
 plt.xlabel('Generasi')
-ax.text(0.95, 0.035, 1 / fitmax[-1],
+ax.text(0.95, 0.035, ('f(x1,x2) : ',bestC),
         verticalalignment='bottom', horizontalalignment='right',
         transform=ax.transAxes,
         color='black', fontsize=10, style='italic',
         bbox={'facecolor':'red', 'alpha':0.5, 'pad':10})
+
+ax.text(0.95, 0.15, ('x1:',bestK[0],'x2:',bestK[1]),
+        verticalalignment='bottom', horizontalalignment='right',
+        transform=ax.transAxes,
+        color='black', fontsize=10, style='italic',
+        bbox={'facecolor':'green', 'alpha':0.5, 'pad':10})
+print(bestK[0],bestK[1])
 plt.show()
+
