@@ -38,7 +38,7 @@ def fitness(population, ra, rb, n):
     fitness = []
     for data in population:
         x = decode(data, ra, rb, n)
-        fitness.append(1 / (cost(x[0], x[1]) + abs(rb)))
+        fitness.append(1 / (cost(x[0], x[1]) + 2))
 
     return fitness
 
